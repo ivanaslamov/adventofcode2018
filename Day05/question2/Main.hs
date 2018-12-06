@@ -67,7 +67,7 @@ expand cs  = Node False first_character last_character len left_tree right_tree
 solution :: Tree -> Maybe Tree
 solution (Leaf c) = Just (Leaf c)
 solution (Node True start_character end_character len left_tree right_tree) = Just $ Node True start_character end_character len left_tree right_tree
-solution (Node _ start_character end_character len left_tree right_tree)
+solution (Node _    _               _             len left_tree right_tree)
     | converges && (isNothing maybe_left_tree) && (isNothing maybe_right_tree) = Nothing
     | converges && (isNothing maybe_left_tree)                                 = solution right_tree'
     | converges                                && (isNothing maybe_right_tree) = solution left_tree'
