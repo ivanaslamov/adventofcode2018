@@ -39,10 +39,6 @@ trimLastCharacter (Node solved first_character _ len left_tree right_tree) = Jus
     last_character'    = lastCharacter right_tree'
     len'               = len - 1
 
-trim :: String -> String
-trim = f . f
-  where f = reverse . dropWhile isSpace
-
 parallelMap :: (a -> b) -> [a] -> Eval [b]
 parallelMap f [] = return []
 parallelMap f (a:as) = do
@@ -152,7 +148,11 @@ solution' (Just tree) = length $ pack $ solution tree
 main :: IO ()
 main = do
    content <- getContents
+
    let
-    tree = fromJust $ solution $ expand $ trim $ content
+    trimContent = f . f
+       where f = reverse . dropWhile isSpace
+    tree = fromJust $ solution $ expand $ trimContent $ content
     f = solution' . (destroy tree)
+
    putStrLn $ show $ minimum $ runEval $ parallelMap f ['a'..'z']
