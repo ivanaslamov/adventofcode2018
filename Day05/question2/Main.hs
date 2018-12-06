@@ -135,8 +135,9 @@ destroy (Node solved start_character end_character len left_tree right_tree) pol
 
 --
 solution' :: Maybe Tree -> Int
-solution' Nothing     = 9
+solution' Nothing     = 0
 solution' (Just tree) = length $ pack $ solution tree
+
 
 --
 main :: IO ()
