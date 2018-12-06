@@ -1,10 +1,5 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 import Data.Char
-import Data.List (sort, sortBy, maximumBy)
 import Data.Maybe
-import Control.Applicative
-import qualified Data.Map.Strict as Map
 
 data Tree = Node Bool Char Char Int Tree Tree | Leaf Char | Empty deriving (Show)
 
