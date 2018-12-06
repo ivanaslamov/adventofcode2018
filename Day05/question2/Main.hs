@@ -114,10 +114,11 @@ destroy :: Tree -> Char -> Maybe Tree
 destroy (Leaf c) polimer
   | (toLower c) == polimer = Nothing
   | otherwise              = Just $ Leaf c
-destroy (Node _ start_character end_character _ left_tree right_tree) polimer
+destroy (Node solved start_character end_character len left_tree right_tree) polimer
     | (isNothing maybe_left_tree) && (isNothing maybe_right_tree) = Nothing
     | (isNothing maybe_left_tree)                                 = maybe_right_tree
     |                                (isNothing maybe_right_tree) = maybe_left_tree
+    | left_tree' == left_tree     && right_tree' == right_tree    = Just $ Node solved start_character end_character len left_tree right_tree
     | otherwise                                                   = Just $ Node False start_character' end_character' len' left_tree' right_tree'
   where
     maybe_left_tree  = destroy left_tree polimer
@@ -142,6 +143,6 @@ main :: IO ()
 main = do
    content <- getContents
    let
-    tree = expand $ trim $ content
+    tree = fromJust $ solution $ expand $ trim $ content
     f = solution' . (destroy tree)
    putStrLn $ show $ minimum $ map f ['a'..'z']
