@@ -1,5 +1,6 @@
 import Data.Char
 import Data.Maybe
+import Control.Parallel.Strategies
 
 data Tree = Node Bool Char Char Int Tree Tree | Leaf Char | Empty deriving (Show)
 
@@ -41,6 +42,14 @@ trimLastCharacter (Node solved first_character _ len left_tree right_tree) = Jus
 trim :: String -> String
 trim = f . f
   where f = reverse . dropWhile isSpace
+
+parallelMap :: (a -> b) -> [a] -> Eval [b]
+parallelMap f [] = return []
+parallelMap f (a:as) = do
+  b  <- rpar (f a)
+  bs <- parallelMap f as
+  return (b:bs)
+
 
 --
 expand :: [Char] -> Tree
@@ -146,4 +155,4 @@ main = do
    let
     tree = fromJust $ solution $ expand $ trim $ content
     f = solution' . (destroy tree)
-   putStrLn $ show $ minimum $ map f ['a'..'z']
+   putStrLn $ show $ minimum $ runEval $ parallelMap f ['a'..'z']
