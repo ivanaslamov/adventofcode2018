@@ -48,9 +48,7 @@ look (c:cs) n = look cs (n-1)
 --
 solution :: Node -> Int
 solution (Node [] meta) = sum(meta)
-solution (Node nodes meta) = meta'
-  where
-    meta' = foldl (\acc m -> acc + look nodes m) 0 meta
+solution (Node nodes meta) = foldl (\acc m -> acc + look nodes m) 0 meta
 
 
 --
