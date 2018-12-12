@@ -70,9 +70,6 @@ toX (MovingVector position_x _ _ _) = position_x
 toY :: MovingVector -> Int
 toY (MovingVector _ position_y _ _) = position_y
 
-toCircle :: MovingVector -> String
-toCircle (MovingVector position_x position_y _ _) = "<circle fill=\"#FF0\" stroke=\"#000\" stroke-width=\"1\" cx=\"" ++ (show $ position_x * 10) ++ "\" cy=\"" ++ (show $ position_y * 10) ++ "\" r=\"1\" />"
-
 density :: [MovingVector] -> Float
 density cs = len / area
   where
@@ -101,11 +98,14 @@ search n acc cs
     acc' = density cs
     cs' = advance cs
 
+toCircle :: MovingVector -> String
+toCircle (MovingVector position_x position_y _ _) = "<circle fill=\"#FF0\" stroke=\"#000\" stroke-width=\"1\" cx=\"" ++ (show $ position_x * 10) ++ "\" cy=\"" ++ (show $ position_y * 10) ++ "\" r=\"1\" />"
 
 --
 main :: IO ()
 main = do
    content <- getContents
+
    let
     vectors = map (parser) $ lines content
     (n, vectors'') = search 0 0 vectors
